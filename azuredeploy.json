@@ -339,6 +339,28 @@
           ]
         }
       }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat('master', copyindex(),'/', 'customScriptExtension')]",
+      "apiVersion": "2014-12-01-preview",
+      "location": "[parameters('region')]",
+      "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', 'master', copyIndex())]"
+      ],
+      "copy": {
+        "name": "masterVmLoop",
+        "count": "[parameters('numberOfMasters')]"
+      },
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.3",
+        "settings": {
+          "fileUris": [],
+          "commandToExecute": "while ! ping -c 1 leader.mesos > /dev/null 2>%1 ; do sleep 1; done"
+        }
+      }
     }
   ]
 }
