@@ -238,35 +238,6 @@
                     ]
                 }
             }
-        },
-        {
-            "name": "slaveGroups",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2015-01-01",
-            "copy": {
-                "name": "slaveLoop",
-                "count": "[parameters('numberOfSlaveGroups')]"
-            },
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('baseTemplateUri')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "adminUsername": { "value": "[parameters('adminUserName')]" },
-                    "storageAccountName": { "value": "[concat(parameters('storageAccountName'), copyIndex())]" },
-                    "groupNumber": { "value": "[copyIndex()]" },
-                    "region": { "value": "[parameters('region')]" },
-                    "virtualNetworkName": { "value": "[ parameters('virtualNetworkName')]" },
-                    "vmSizeSlaveNodes": { "value": "[parameters('vmSizeSlaveNodes')]" },
-                    "numberOfSlaves": { "value": "10" },
-                    "subnet1Name": { "value": "[parameters('subnet1Name')]" },
-                    "subnet1Prefix": { "value": "[parameters('subnet1Prefix')]" },
-                    "sshKeyData": { "value": "[parameters('sshKeyData')]" },
-                    "uuid": { "value": "[parameters('uuid')]" }
-                }
-            }
         }
     ]
-        }
+}
