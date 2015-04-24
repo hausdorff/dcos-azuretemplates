@@ -47,7 +47,7 @@
     "sshKeyPath": "[concat('/home/',variables('adminUsername'),'/.ssh/authorized_keys')]",
     "mesosQuorum": "2",
     "region": "East Asia",
-    "numberOfMasters": "3",
+    "numberOfMasters": 3,
     "subnet1Name": "Data",
     "subnet1Prefix": "10.0.0.0/24",
     "addressPrefix": "10.0.0.0/16"
