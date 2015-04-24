@@ -104,7 +104,7 @@
         }
     },
     "variables": {
-        "baseTemplateUri": "https://raw.githubusercontent.com/johngossman/dcos-azuretemplates/master/slaveCluster.json",
+        "baseTemplateUri": "https://github.com/johngossman/dcos-azuretemplates/blob/master/slaveCluster.json",
         "vmStorageAccountContainerName": "vhd",
         "vmSourceImageName": "2b171e93f07c4903bcad35bda10acf22__CoreOS-Beta-633.1.0",
         "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
@@ -254,9 +254,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "groupNumber": "[copyIndex()]",
                     "adminUsername": "[parameters('adminUserName')]",
                     "storageAccountName": "[concat(parameters('storageAccountName'), copyIndex())]",
+                    "groupNumber": "[copyIndex()]",
                     "region": "[parameters('region')]",
                     "virtualNetworkName": "[parameters('virtualNetworkName')]",
                     "vmSizeSlaveNodes": "[parameters('vmSizeSlaveNodes')]",

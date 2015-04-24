@@ -84,12 +84,12 @@
     "sourceImageName": "[concat('/', subscription().subscriptionId,'/services/images/',variables('vmSourceImageName'))]",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "slaveCustomData": "[concat('#cloud-config\n\n', '{\"write_files\": [{\"content\": \"nameserver 168.63.129.16\", \"path\": \"/etc/resolv.conf\"}, {\"owner\": \"root\", \"path\": \"/etc/mesosphere/setup-flags/repository-url\", \"permissions\": 420, \"content\": \"http://s3.amazonaws.com/downloads.mesosphere.io/dcos/branches/azure/\"}, {\"path\": \"/etc/mesosphere/roles/slave\"}, {\"content\": \"{}\", \"path\": \"/etc/mesosphere/setup-packages/dcos-config--setup/pkginfo.json\"}, {\"content\": \"MESOS_MASTER=zk://leader.mesos:2181/mesos\\nMESOS_CONTAINERIZERS=docker,mesos\\nMESOS_LOG_DIR=/var/log/mesos\\nMESOS_EXECUTOR_REGISTRATION_TIMEOUT=5mins\\nMESOS_ISOLATION=cgroups/cpu,cgroups/mem\\nMESOS_WORK_DIR=/var/lib/mesos/slave\\nMESOS_RESOURCES=ports:[1025-2180,2182-3887,3889-5049,5052-8079,8082-65535]\\nMESOS_HOSTNAME=$private_ipv4\\nMESOS_IP=$private_ipv4\\n\", \"path\": \"/etc/mesosphere/setup-packages/dcos-config--setup/etc/mesos-slave\"}, {\"content\": \"MASTER_ELB=master0-', parameters('uuid'),'.westus.cloudapp.azure.com\\nFALLBACK_DNS=168.63.129.16\\n\", \"path\": \"/etc/mesosphere/setup-packages/dcos-config--setup/etc/cloudenv\"}], \"coreos\": {\"update\": {\"reboot-strategy\": \"off\"}, \"units\": [{\"command\": \"stop\", \"name\": \"systemd-resolved.service\", \"mask\": true}, {\"command\": \"stop\", \"name\": \"etcd.service\", \"mask\": true}, {\"command\": \"start\", \"content\": \"[Unit]\\nDescription=Write out dynamic config values\\n[Service]\\nType=oneshot\\nEnvironmentFile=/etc/environment\\n# Marathon depends on `hostname` resolution working\\nExecStart=/usr/bin/bash -c \\\"echo ${COREOS_PRIVATE_IPV4} $(hostname) > /etc/hosts\\\"\\n\", \"name\": \"config-writer.service\"}, {\"content\": \"[Unit]\\nDescription=Download the DCOS\\nAfter=network-online.target\\nWants=network-online.target\\nConditionPathExists=!/opt/mesosphere/\\n[Service]\\nType=oneshot\\nExecStartPre=/usr/bin/curl http://s3.amazonaws.com/downloads.mesosphere.io/dcos/branches/azure/bootstrap.tar.xz -o /tmp/bootstrap.tar.xz\\nExecStartPre=/usr/bin/mkdir -p /opt/mesosphere\\nExecStart=/usr/bin/tar -xf /tmp/bootstrap.tar.xz -C /opt/mesosphere\\n\", \"name\": \"dcos-download.service\"}, {\"command\": \"start\", \"enable\": true, \"name\": \"dcos-setup.service\", \"content\": \"[Unit]\\nDescription=Prep the Pkgpanda working directories for this host.\\nRequires=dcos-download.service\\nAfter=dcos-download.service\\n[Service]\\nType=oneshot\\nEnvironmentFile=/opt/mesosphere/environment\\nExecStart=/opt/mesosphere/bin/pkgpanda setup\\n[Install]\\nWantedBy=multi-user.target\\n\"}]}}')]",
-    "storageAcctName" :  "[concat(parameters('storageAccountName'),parameters('groupNumber')]"
+    "storageAcctName" :  "[concat(parameters('storageAccountName'), parameters('groupNumber')]"
   },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAountName')]",
+      "name": "[variables('storageAcctName')]",
       "apiVersion": "2014-12-01-preview",
       "location": "[parameters('region')]",
       "properties": {
@@ -153,7 +153,7 @@
       },
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', 'slaveNodeNic', parameters('groupNumber'), '-', copyindex())]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAcctName'))]"
       ],
       "properties": {
         "hardwareProfile": {
@@ -179,7 +179,7 @@
           "sourceImage": {
             "id": "[variables('sourceImageName')]"
           },
-          "destinationVhdsContainer": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/')]"
+          "destinationVhdsContainer": "[concat('http://', variables('storageAcctName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/')]"
         },
         "networkProfile": {
           "networkInterfaces": [
