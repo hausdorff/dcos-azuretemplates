@@ -104,7 +104,7 @@
         }
     },
     "variables": {
-        "baseTemplateUri" : "https://raw.githubusercontent.com/johngossman/dcos-azuretemplates/master/slaveCluster.json",
+        "baseTemplateUri": "https://raw.githubusercontent.com/johngossman/dcos-azuretemplates/master/slaveCluster.json",
         "vmStorageAccountContainerName": "vhd",
         "vmSourceImageName": "2b171e93f07c4903bcad35bda10acf22__CoreOS-Beta-633.1.0",
         "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
@@ -149,22 +149,6 @@
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
                     "domainNameLabel": "[concat('master', copyindex(), '-', parameters('uuid'))]"
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[concat('slavePublicIP', copyindex())]",
-            "copy": {
-                "name": "ipLoop",
-                "count": "[parameters('numberOfSlaves')]"
-            },
-            "location": "[parameters('region')]",
-            "apiVersion": "2014-12-01-preview",
-            "properties": {
-                "publicIPAllocationMethod": "Dynamic",
-                "dnsSettings": {
-                    "domainNameLabel": "[concat('slave', copyindex(), '-', parameters('uuid'))]"
                 }
             }
         },
@@ -252,7 +236,7 @@
             "apiVersion": "2015-01-01",
             "copy": {
                 "name": "slaveLoop",
-                "count":  "[parameters("
+                "count": "[parameters('numberOfSlaveGroups')]"
             },
             "properties": {
                 "mode": "Incremental",
@@ -261,7 +245,17 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    
+                    "groupNumber" :  "[copyIndex()]",
+                    "adminUsername": "[parameters('adminUserName')]",
+                    "storageAccountName": "[concat(parameters('storageAccountName'), copyIndex())]",
+                    "region": "[parameters('region')]",
+                    "virtualNetworkName": "[parameters('virtualNetworkName')]",
+                    "vmSizeSlaveNodes": "[parameters('vmSizeSlaveNodes')]",
+                    "numberOfSlaves": "10",
+                    "subnet1Name": "[parameters('subnet1Name')]",
+                    "subnet1Prefix": "[parameters('subnet1Prefix')]",
+                    "sshKeyData": "[parameters('sshKeyData')]",
+                    "uuid": "[parameters('uuid')]"
                 }
             }
         }
