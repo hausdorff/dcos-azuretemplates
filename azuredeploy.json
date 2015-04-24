@@ -254,19 +254,19 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "adminUsername": "[parameters('adminUserName')]",
-                    "storageAccountName": "[concat(parameters('storageAccountName'), copyIndex())]",
-                    "groupNumber": "[copyIndex()]",
-                    "region": "[parameters('region')]",
-                    "virtualNetworkName": "[parameters('virtualNetworkName')]",
-                    "vmSizeSlaveNodes": "[parameters('vmSizeSlaveNodes')]",
-                    "numberOfSlaves": "10",
-                    "subnet1Name": "[parameters('subnet1Name')]",
-                    "subnet1Prefix": "[parameters('subnet1Prefix')]",
-                    "sshKeyData": "[parameters('sshKeyData')]",
-                    "uuid": "[parameters('uuid')]"
+                    "adminUsername": { "value": "[parameters('adminUserName')]" },
+                    "storageAccountName": { "value": "[concat(parameters('storageAccountName'), copyIndex())]" },
+                    "groupNumber": { "value": "[copyIndex()]" },
+                    "region": { "value": "[parameters('region')]" },
+                    "virtualNetworkName": { "value": "[ parameters('virtualNetworkName')]" },
+                    "vmSizeSlaveNodes": { "value": "[parameters('vmSizeSlaveNodes')]" },
+                    "numberOfSlaves": { "value": "10" },
+                    "subnet1Name": { "value": "[parameters('subnet1Name')]" },
+                    "subnet1Prefix": { "value": "[parameters('subnet1Prefix')]" },
+                    "sshKeyData": { "value": "[parameters('sshKeyData')]" },
+                    "uuid": { "value": "[parameters('uuid')]" }
                 }
             }
         }
     ]
-}
+        }
