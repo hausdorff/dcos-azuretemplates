@@ -182,7 +182,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[concat('Microsoft.Network/networkInterfaces/', 'slaveNodeNic', parameters('groupNumber'), '-', copyindex())]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat('slaveNodeNic', parameters('groupNumber'), '-', copyindex()))]"
             }
           ]
         }
