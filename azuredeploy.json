@@ -52,7 +52,7 @@
         },
         "numberOfSlaveGroups": {
             "type": "int",
-            "defaultValue": 1,
+            "defaultValue": 6,
             "metadata": {
                 "Description": "Number of Slave groups (each group represents 10 slaves)"
             }
@@ -240,7 +240,7 @@
             }
         },
         {
-            "name": "slaveGroups",
+            "name": "[concat('slaveGroups', copyIndex())]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "copy": {
