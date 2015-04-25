@@ -258,7 +258,7 @@
                     "storageAccountName": { "value": "[concat(parameters('storageAccountName'), copyIndex())]" },
                     "groupNumber": { "value": "[copyIndex()]" },
                     "region": { "value": "[parameters('region')]" },
-                    "virtualNetworkName": { "value": "[ parameters('virtualNetworkName')]" },
+                    "vnetID": { "value": "[ variables('vnetID')]" },
                     "vmSizeSlaveNodes": { "value": "[parameters('vmSizeSlaveNodes')]" },
                     "numberOfSlaves": { "value": "10" },
                     "subnet1Name": { "value": "[parameters('subnet1Name')]" },
@@ -269,4 +269,4 @@
             }
         }
     ]
-        }
+}
